@@ -1,22 +1,13 @@
 package com.yonvengers.smart_alcohol.register.model;
 
 public class UserProfileRequest {
-
-    private String username;
     private Integer height;
     private String gender;
     private Integer weight;
     private Integer birthYear;
-    private Float monthlyDrinkGoal;
+    private Double monthlyDrinkGoal;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
+    // Getters and Setters
     public Integer getHeight() {
         return height;
     }
@@ -49,11 +40,11 @@ public class UserProfileRequest {
         this.birthYear = birthYear;
     }
 
-    public Float getMonthlyDrinkGoal() {
+    public Double getMonthlyDrinkGoal() {
         return monthlyDrinkGoal;
     }
 
-    public void setMonthlyDrinkGoal(Float monthlyDrinkGoal) {
+    public void setMonthlyDrinkGoal(Double monthlyDrinkGoal) {
         this.monthlyDrinkGoal = monthlyDrinkGoal;
     }
 }

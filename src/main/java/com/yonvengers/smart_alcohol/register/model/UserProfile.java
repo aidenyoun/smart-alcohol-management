@@ -8,27 +8,23 @@ public class UserProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "profile_id")
     private Long profileId;
 
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "height")
     private Integer height;
 
-    @Column(name = "gender")
+    @Column(length = 10)
     private String gender;
 
-    @Column(name = "weight")
     private Integer weight;
 
-    @Column(name = "birth_year")
     private Integer birthYear;
 
-    @Column(name = "monthly_drink_goal")
-    private Float monthlyDrinkGoal;
+    private Double monthlyDrinkGoal;
 
+    // Getters and Setters
     public Long getProfileId() {
         return profileId;
     }
@@ -77,11 +73,11 @@ public class UserProfile {
         this.birthYear = birthYear;
     }
 
-    public Float getMonthlyDrinkGoal() {
+    public Double getMonthlyDrinkGoal() {
         return monthlyDrinkGoal;
     }
 
-    public void setMonthlyDrinkGoal(Float monthlyDrinkGoal) {
+    public void setMonthlyDrinkGoal(Double monthlyDrinkGoal) {
         this.monthlyDrinkGoal = monthlyDrinkGoal;
     }
 }
