@@ -18,7 +18,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // CSRF 보호 비활성화
             .authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
-                    .requestMatchers("/api/auth/**", "/api/profile/**").permitAll()
+                    .requestMatchers("/api/auth/**", "/api/profile/**", "/api/chatbot/**").permitAll()
                     .anyRequest().authenticated()
             );
 
