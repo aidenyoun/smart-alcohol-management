@@ -21,7 +21,25 @@ public class UserProfileService {
         User user = userRepository.findByUsername(username);
 
         UserProfile userProfile = new UserProfile();
-        userProfile.setUserId(user.getId()); // 수정된 부분
+        userProfile.setUserId(user.getId());
+        userProfile.setHeight(userProfileRequest.getHeight());
+        userProfile.setGender(userProfileRequest.getGender());
+        userProfile.setWeight(userProfileRequest.getWeight());
+        userProfile.setBirthYear(userProfileRequest.getBirthYear());
+        userProfile.setMonthlyDrinkGoal(userProfileRequest.getMonthlyDrinkGoal());
+
+        return userProfileRepository.save(userProfile);
+    }
+
+    public UserProfile updateUserProfile(String username, UserProfileRequest userProfileRequest) {
+        User user = userRepository.findByUsername(username);
+        UserProfile existingProfile = userProfileRepository.findByUserId(user.getId());
+
+        if (existingProfile != null) {
+            userProfileRepository.delete(existingProfile);
+        }
+        UserProfile userProfile = new UserProfile();
+        userProfile.setUserId(user.getId());
         userProfile.setHeight(userProfileRequest.getHeight());
         userProfile.setGender(userProfileRequest.getGender());
         userProfile.setWeight(userProfileRequest.getWeight());

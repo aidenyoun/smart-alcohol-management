@@ -5,9 +5,8 @@ public class UserProfileRequest {
     private String gender;
     private Integer weight;
     private Integer birthYear;
-    private Double monthlyDrinkGoal;
+    private Integer monthlyDrinkGoal;
 
-    // Getters and Setters
     public Integer getHeight() {
         return height;
     }
@@ -40,11 +39,11 @@ public class UserProfileRequest {
         this.birthYear = birthYear;
     }
 
-    public Double getMonthlyDrinkGoal() {
+    public Integer getMonthlyDrinkGoal() {
         return monthlyDrinkGoal;
     }
 
-    public void setMonthlyDrinkGoal(Double monthlyDrinkGoal) {
+    public void setMonthlyDrinkGoal(Integer monthlyDrinkGoal) {
         this.monthlyDrinkGoal = monthlyDrinkGoal;
     }
 }

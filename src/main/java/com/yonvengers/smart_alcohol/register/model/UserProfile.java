@@ -10,21 +10,24 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long profileId;
 
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false, unique = true)
     private Long userId;
 
-    private Integer height;
-
-    @Column(length = 10)
-    private String gender;
-
-    private Integer weight;
-
+    @Column(name = "birth_year")
     private Integer birthYear;
 
-    private Double monthlyDrinkGoal;
+    @Column(name = "gender")
+    private String gender;
 
-    // Getters and Setters
+    @Column(name = "height")
+    private Integer height;
+
+    @Column(name = "weight")
+    private Integer weight;
+
+    @Column(name = "monthly_drink_goal")
+    private Integer monthlyDrinkGoal;
+
     public Long getProfileId() {
         return profileId;
     }
@@ -41,12 +44,12 @@ public class UserProfile {
         this.userId = userId;
     }
 
-    public Integer getHeight() {
-        return height;
+    public Integer getBirthYear() {
+        return birthYear;
     }
 
-    public void setHeight(Integer height) {
-        this.height = height;
+    public void setBirthYear(Integer birthYear) {
+        this.birthYear = birthYear;
     }
 
     public String getGender() {
@@ -57,6 +60,14 @@ public class UserProfile {
         this.gender = gender;
     }
 
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
     public Integer getWeight() {
         return weight;
     }
@@ -65,19 +76,11 @@ public class UserProfile {
         this.weight = weight;
     }
 
-    public Integer getBirthYear() {
-        return birthYear;
-    }
-
-    public void setBirthYear(Integer birthYear) {
-        this.birthYear = birthYear;
-    }
-
-    public Double getMonthlyDrinkGoal() {
+    public Integer getMonthlyDrinkGoal() {
         return monthlyDrinkGoal;
     }
 
-    public void setMonthlyDrinkGoal(Double monthlyDrinkGoal) {
+    public void setMonthlyDrinkGoal(Integer monthlyDrinkGoal) {
         this.monthlyDrinkGoal = monthlyDrinkGoal;
     }
 }

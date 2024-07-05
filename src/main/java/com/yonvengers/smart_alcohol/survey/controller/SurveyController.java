@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/survey")
@@ -49,6 +51,27 @@ public class SurveyController {
         surveyService.saveSurveyResponse(surveyResponse);
         return ResponseEntity.ok("Survey submitted successfully.");
     }
+
+    @GetMapping("/inquiry")
+    public ResponseEntity<?> getSurveyResponses() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
+        if (user == null) {
+            return ResponseEntity.badRequest().body("User not found.");
+        }
+
+        Long userId = user.getId();
+        List<SurveyResponse> responses = surveyService.getSurveyResponsesByUserId(userId);
+
+        if (responses.isEmpty()) {
+            return ResponseEntity.ok("No survey responses found for the user.");
+        }
+
+        return ResponseEntity.ok(responses);
+    }
+
 
     private int calculateTotalScore(SurveyResponse surveyResponse) {
         return surveyResponse.getQuestion1() +

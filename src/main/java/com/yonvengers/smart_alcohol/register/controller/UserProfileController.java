@@ -25,4 +25,14 @@ public class UserProfileController {
         UserProfile userProfile = userProfileService.createUserProfile(username, userProfileRequest);
         return ResponseEntity.ok(userProfile);
     }
+
+    @PostMapping("/recreate")
+    public ResponseEntity<?> recreateUserProfile(@RequestBody UserProfileRequest userProfileRequest) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        UserProfile userProfile = userProfileService.updateUserProfile(username, userProfileRequest);
+        return ResponseEntity.ok(userProfile);
+    }
+
 }
