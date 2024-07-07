@@ -48,4 +48,8 @@ public class UserProfileService {
 
         return userProfileRepository.save(userProfile);
     }
+    public UserProfile getUserProfileByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        return userProfileRepository.findByUserId(user.getId());
+    }
 }

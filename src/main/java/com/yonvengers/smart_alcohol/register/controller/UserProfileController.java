@@ -35,4 +35,13 @@ public class UserProfileController {
         return ResponseEntity.ok(userProfile);
     }
 
+    @GetMapping("/get")
+    public ResponseEntity<?> getUserProfile() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        UserProfile userProfile = userProfileService.getUserProfileByUsername(username);
+        return ResponseEntity.ok(userProfile);
+    }
+
 }
