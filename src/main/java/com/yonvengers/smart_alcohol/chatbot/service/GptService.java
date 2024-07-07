@@ -17,7 +17,7 @@ public class GptService {
     @Value("${openai.api.key}")
     private String apiKey;
 
-    public String getGptResponse(String text) {
+    public Map<String, String> getGptResponse(String text) {
         String url = "https://api.openai.com/v1/chat/completions";
 
         HttpHeaders headers = new HttpHeaders();
@@ -33,7 +33,7 @@ public class GptService {
         userMessage.put("content", text);
 
         Map<String, Object> body = new HashMap<>();
-        body.put("model", "gpt-4o");
+        body.put("model", "gpt-4");
         body.put("messages", List.of(systemMessage, userMessage));
         body.put("max_tokens", 400);
 
@@ -46,6 +46,12 @@ public class GptService {
         Map<String, Object> choice = choices.get(0);
         Map<String, Object> message = (Map<String, Object>) choice.get("message");
 
-        return (String) message.get("content");
+        String gptResponse = (String) message.get("content");
+
+        Map<String, String> result = new HashMap<>();
+        result.put("inputText", text);
+        result.put("gptResponse", gptResponse);
+
+        return result;
     }
 }

@@ -3,10 +3,7 @@ package com.yonvengers.smart_alcohol.chatbot.controller;
 import com.yonvengers.smart_alcohol.chatbot.service.FileStorageService;
 import com.yonvengers.smart_alcohol.chatbot.service.GptService;
 import com.yonvengers.smart_alcohol.chatbot.service.SpeechToTextService;
-// import com.yonvengers.smart_alcohol.chatbot.service.TextToSpeechService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/chatbot")
@@ -28,11 +27,8 @@ public class ChatController {
     @Autowired
     private GptService gptService;
 
-//    @Autowired
-//    private TextToSpeechService textToSpeechService;
-
     @PostMapping("/voice-upload")
-    public ResponseEntity<String> handleVoiceUpload(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Map<String, String>> handleVoiceUpload(@RequestParam("file") MultipartFile file) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
@@ -41,9 +37,13 @@ public class ChatController {
 
             String transcript = speechToTextService.convertSpeechToText(filePath);
 
-            String gptResponse = gptService.getGptResponse(transcript);
+            Map<String, String> gptResult = gptService.getGptResponse(transcript);
 
-            return ResponseEntity.ok(gptResponse);
+            Map<String, String> response = new HashMap<>();
+            response.put("inputText", gptResult.get("inputText"));
+            response.put("gptResponse", gptResult.get("gptResponse"));
+
+            return ResponseEntity.ok(response);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,19 +51,3 @@ public class ChatController {
         }
     }
 }
-
-
-/*            byte[] audioResponse = textToSpeechService.convertTextToSpeech(gptResponse);
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .body(audioResponse);
-        } catch (IOException e) {
-            return ResponseEntity.status(500).body(null);
-        }
-    }
-}
-*/
