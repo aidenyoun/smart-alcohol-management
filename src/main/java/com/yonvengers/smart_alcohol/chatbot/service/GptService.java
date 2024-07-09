@@ -26,15 +26,19 @@ public class GptService {
 
         Map<String, Object> systemMessage = new HashMap<>();
         systemMessage.put("role", "system");
-        systemMessage.put("content", "You are a supportive and knowledgeable assistant specialized in alcohol addiction diagnosis and counseling.");
+        systemMessage.put("content", "You are a supportive and knowledgeable assistant specialized in counseling.");
 
         Map<String, Object> userMessage = new HashMap<>();
         userMessage.put("role", "user");
         userMessage.put("content", text);
 
+        Map<String, Object> assistantMessage = new HashMap<>();
+        assistantMessage.put("role", "user");
+        assistantMessage.put("content", "Please provide a response in two sentences or less, in Korean, and include a question if possible.");
+
         Map<String, Object> body = new HashMap<>();
-        body.put("model", "gpt-4");
-        body.put("messages", List.of(systemMessage, userMessage));
+        body.put("model", "gpt-4o");
+        body.put("messages", List.of(systemMessage, userMessage, assistantMessage));
         body.put("max_tokens", 400);
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
