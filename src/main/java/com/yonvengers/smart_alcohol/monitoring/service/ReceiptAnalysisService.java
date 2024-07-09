@@ -30,7 +30,7 @@ public class ReceiptAnalysisService {
     @Value("${tesseract.librarypath}")
     private String tessLibraryPath;
 
-    public Map<String, String> analyzeReceipt(MultipartFile file) throws IOException, TesseractException {
+    public String analyzeReceipt(MultipartFile file) throws IOException, TesseractException {
         // Convert MultipartFile to BufferedImage
         InputStream inputStream = file.getInputStream();
         BufferedImage bufferedImage = ImageIO.read(inputStream);
@@ -57,7 +57,7 @@ public class ReceiptAnalysisService {
 
         Map<String, Object> systemMessage = new HashMap<>();
         systemMessage.put("role", "system");
-        systemMessage.put("content", "Please provide a response Analyze the following purchase list from a receipt and in Korean.");
+        systemMessage.put("content", "Please analyze the following purchase list from a receipt and respond in Korean.");
 
         Map<String, Object> userMessage = new HashMap<>();
         userMessage.put("role", "user");
@@ -73,12 +73,10 @@ public class ReceiptAnalysisService {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Map<String, Object>> response = restTemplate.postForEntity(url, entity, (Class<Map<String, Object>>) (Class<?>) Map.class);
 
-        // Convert all values to String
-        Map<String, String> result = new HashMap<>();
-        for (Map.Entry<String, Object> entry : response.getBody().entrySet()) {
-            result.put(entry.getKey(), entry.getValue() != null ? entry.getValue().toString() : null);
-        }
+        List<Map<String, Object>> choices = (List<Map<String, Object>>) response.getBody().get("choices");
+        Map<String, Object> choice = choices.get(0);
+        Map<String, Object> message = (Map<String, Object>) choice.get("message");
 
-        return result;
+        return (String) message.get("content");
     }
 }
