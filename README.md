@@ -88,3 +88,27 @@ JSON
 ## 8. Daily Survey 기록 조회
 GET http://localhost:8080/api/survey/inquiry
 JSON으로 responseId, userId, responseDate, 각각 항목에 대한 점수와 총점 반환
+
+## 9. 영수증 분석
+POST http://localhost:8080/api/monitoring/upload-receipt
+1. Tesseract OCR을 이용하여 사용자가 업로드한 영수증 이미지에 대해 text를 추출함.
+2. 추출된 텍스트를 Open AI Chat API에 전송하여 분석을 요청.
+3. JSON으로 분석값 반환
+
+## 10. 음주 기록 저장
+POST http://localhost:8080/api/drink-records/record
+1. 사용자가 날짜를 선택하여 소주, 맥주, 막걸리, 와인, 위스키, 칵테일에 대한 음주 기록을 DB에 저장 가능
+2. 로그인 때 발급된 jwt token으로 사용자 인식
+```json
+{
+    "drinkDate": "2024-07-08",
+    "soju": 2.5,
+    "beer": 1.0,
+    "makgeolli": 0.5,
+    "wine": 0.3,
+    "whiskey": 0.2,
+    "cocktail": 0.7
+}
+```
+
+
