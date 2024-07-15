@@ -12,6 +12,9 @@ import org.springframework.http.ResponseEntity;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.List;
+import java.sql.Date;
+
 @RestController
 @RequestMapping("/api/drink-records")
 public class DrinkRecordController {
@@ -29,6 +32,15 @@ public class DrinkRecordController {
 
         DrinkRecord savedRecord = drinkRecordService.recordDrink(username, request);
         return ResponseEntity.ok(savedRecord);
+    }
+
+    @GetMapping("/by-date")
+    public ResponseEntity<List<DrinkRecord>> getDrinkRecordsByDate(HttpServletRequest httpRequest, @RequestParam("date") Date date) {
+        String token = httpRequest.getHeader("Authorization").substring(7); // Assuming "Bearer <token>"
+        String username = getUsernameFromToken(token);
+
+        List<DrinkRecord> records = drinkRecordService.getDrinkRecordsByDate(username, date);
+        return ResponseEntity.ok(records);
     }
 
     private String getUsernameFromToken(String token) {

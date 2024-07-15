@@ -6,6 +6,9 @@ import com.yonvengers.smart_alcohol.calendar.repository.DrinkRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.sql.Date;
+
 @Service
 public class DrinkRecordService {
 
@@ -24,5 +27,8 @@ public class DrinkRecordService {
         drinkRecord.setCocktail(request.getCocktail());
 
         return drinkRecordRepository.save(drinkRecord);
+    }
+    public List<DrinkRecord> getDrinkRecordsByDate(String username, Date date) {
+        return drinkRecordRepository.findByUsernameAndDrinkDate(username, date);
     }
 }
