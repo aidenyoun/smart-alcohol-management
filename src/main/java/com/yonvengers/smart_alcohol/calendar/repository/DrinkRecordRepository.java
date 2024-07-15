@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface DrinkRecordRepository extends JpaRepository<DrinkRecord, Long> {
     List<DrinkRecord> findByUsernameAndDrinkDate(String username, Date drinkDate);
+    void deleteByUsernameAndDrinkDate(String username, Date drinkDate); // Added method
 }

@@ -17,18 +17,24 @@ public class FileStorageService {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    public String storeFile(MultipartFile file, String userId) throws IOException {
-        // 현재 날짜 및 시간 형식 지정
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
-        String formattedDateTime = LocalDateTime.now().format(formatter);
+public String storeFile(MultipartFile file, String userId) throws IOException {
+    // 현재 날짜 및 시간 형식 지정
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+    String formattedDateTime = LocalDateTime.now().format(formatter);
 
-        // 파일명 생성
-        String filename = userId + "_" + formattedDateTime + "_" + file.getOriginalFilename();
-
-        // 파일 저장 경로
-        Path filePath = Paths.get(uploadDir + java.io.File.separator + filename);
-        Files.write(filePath, file.getBytes());
-
-        return filePath.toString();
+    // 원본 파일 이름 가져오기
+    String originalFilename = file.getOriginalFilename();
+    if (originalFilename == null || originalFilename.trim().isEmpty()) {
+        originalFilename = "default_filename.mp4"; // 기본 파일 이름 설정
     }
+
+    // 파일명 생성
+    String filename = userId + "_" + formattedDateTime + "_" + originalFilename;
+
+    // 파일 저장 경로
+    Path filePath = Paths.get(uploadDir + java.io.File.separator + filename);
+    Files.write(filePath, file.getBytes());
+
+    return filePath.toString();
+}
 }
